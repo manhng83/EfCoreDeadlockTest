@@ -1,17 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EfCoreDeadlockTest
 {
@@ -23,6 +12,37 @@ namespace EfCoreDeadlockTest
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void WindowLoaded(object sender, RoutedEventArgs e)
+        {
+            using (var context = new MyContext())
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                var b1 = new Book { Title = "b1" };
+                var b2 = new Book { Title = "b1" };
+                var a = new Author { Name = "a1", Books = new List<Book> { b1, b2 } };
+                context.Books.AddRange(b1, b2);
+                context.Authors.Add(a);
+                context.SaveChanges();
+            }
+
+
+            dataGrid.ItemsSource = GetData();
+        }
+
+        private List<Author> GetData()
+        {
+            using (var context = new MyContext())
+            {
+                var query = context.Authors.Include(a => a.Books);
+
+                var t = query.ToListAsync();
+                t.Wait();           // Deadlock
+                return t.Result;
+            }
         }
     }
 }
