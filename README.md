@@ -9,4 +9,4 @@ var t = query.ToListAsync();
 t.Wait();           // Deadlock
 return t.Result;
 ```
-Deadlock in [MainWindow.cs](https://github.com/JakobFerdinand/EfCoreDeadlockTest/blob/master/EfCoreDeadlockTest/MainWindow.xaml.cs)
+Deadlock in [MainWindow.xaml.cs](https://github.com/JakobFerdinand/EfCoreDeadlockTest/blob/master/EfCoreDeadlockTest/MainWindow.xaml.cs)
