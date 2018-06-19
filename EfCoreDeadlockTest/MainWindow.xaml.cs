@@ -4,15 +4,9 @@ using System.Windows;
 
 namespace EfCoreDeadlockTest
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        public MainWindow() => InitializeComponent();
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
