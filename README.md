@@ -1,5 +1,6 @@
 # EfCoreDeadlockTest
 
+Sample Project for [EfCore Issue 12407](https://github.com/aspnet/EntityFrameworkCore/issues/12407)
 Ef Core 2.1 causes a deadlock when using in a WPF Application and calling `.Wait()` on an async operation.
 
 ```csharp
